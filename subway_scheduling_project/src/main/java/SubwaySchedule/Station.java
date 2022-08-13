@@ -12,7 +12,7 @@ public class Station {
     // Setting variables as private to not give access directly.
     // Strings can be accessible throughout this class
     public String name;
-    public String subwayLine;
+    public ArrayList<String> subwayLines;
     public ArrayList<String> directions = new ArrayList<String>(); // Create an ArrayList object
     public HashMap<String, ArrayList<LocalTime>> schedule = new HashMap<String, ArrayList<LocalTime>>();
     public Boolean goTransit;
@@ -20,9 +20,9 @@ public class Station {
     public Boolean isInterchange;
 
     // Constructor to receive first name, last name. Constructor name has to be same as class Name.
-    public Station(String name, HashMap<String, ArrayList<LocalTime>> schedule, String subwayLine, ArrayList<String> directions, Boolean goTransit, Boolean viaRail, Boolean isInterchange){
+    public Station(String name, HashMap<String, ArrayList<LocalTime>> schedule,   ArrayList<String> subwayLines, ArrayList<String> directions, Boolean goTransit, Boolean viaRail, Boolean isInterchange){
         this.name = name;
-        this.subwayLine = subwayLine;
+        this.subwayLines = subwayLines;
         this.directions = directions;
         this.schedule = schedule;
         this.goTransit = goTransit;

@@ -7,7 +7,7 @@
       [
         {
           "name": "Vaughan Metropolitan Centre",
-          "subwayLine": ["Line 1 Yonge-University"],
+          "subwayLines": ["Line 1 Yonge-University"],
           "directions": ["North", "South"],
           "schedule": {
               "North": [
@@ -37,7 +37,7 @@
         },
         {
           "name": "Osgoode",
-          "subwayLine": ["Line 1 Yonge-University"],
+          "subwayLines": ["Line 1 Yonge-University"],
           "directions": ["North", "South"],
           "schedule": {
             "North": [
@@ -67,7 +67,7 @@
         },
         {
           "name": "Sheppard-Yonge",
-          "subwayLine": ["Line 1 Yonge-University","Line 4 Sheppard"] ,
+          "subwayLines": ["Line 1 Yonge-University","Line 4 Sheppard"] ,
           "directions": ["North", "South", "East"],
           "schedule": {
             "North": [
@@ -107,7 +107,7 @@
         },
         {
           "name": "Union",
-          "subwayLine": ["Line 1 Yonge-University"],
+          "subwayLines": ["Line 1 Yonge-University"],
           "directions": ["North", "South"],
           "schedule": {
             "North": [
@@ -137,7 +137,7 @@
         },
         {
           "name": "Bloor-Yonge",
-          "subwayLine": ["Line 1 Yonge-University","Line 2 Bloor-Danforth"],
+          "subwayLines": ["Line 1 Yonge-University","Line 2 Bloor-Danforth"],
           "directions": ["North", "South", "East", "West"],
           "schedule": {
             "North": [
@@ -187,7 +187,7 @@
         },
         {
           "name": "Keele",
-          "subwayLine": ["Line 2 Bloor-Danforth"],
+          "subwayLines": ["Line 2 Bloor-Danforth"],
           "directions": ["East", "West"],
           "schedule": {
             "East": [
@@ -217,7 +217,7 @@
         },
         {
           "name": "Leslie",
-          "subwayLine": ["Line 4 Sheppard"],
+          "subwayLines": ["Line 4 Sheppard"],
           "directions": ["East", "West"],
           "schedule": {
             "East": [
@@ -247,7 +247,7 @@
         },
         {
           "name": "Ellesmere",
-          "subwayLine": ["Line 3 Scarborough (RT)"],
+          "subwayLines": ["Line 3 Scarborough (RT)"],
           "directions": [
             "North",
             "South"

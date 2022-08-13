@@ -10,7 +10,9 @@ import java.io.InputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 
 public class SubwaySchedule {
@@ -25,8 +27,7 @@ public class SubwaySchedule {
         String region = jsonObject.getJSONObject("data").getString("region");
 
         //jsonObject.getString()
-        System.out.println("region is: " + region);
-
+        //System.out.println("region is: " + region);
         JSONArray subwayLinesArrJson = jsonObject.getJSONObject("data").getJSONArray("subwayLines");
 
         ArrayList<String> subwayLines = new ArrayList<String>(subwayLinesArrJson.length());
@@ -35,12 +36,45 @@ public class SubwaySchedule {
             subwayLines.add(subwayLinesArrJson.getString(i));
         }
 
-        System.out.println("subwayLines is: " + subwayLines);
+       // System.out.println("subwayLines is: " + subwayLines);
+
+        SubwayNetwork subwayNetwork = new SubwayNetwork(region, subwayLines);
+
+        JSONArray stationsArrJson = jsonObject.getJSONObject("data").getJSONArray("stations");
+
+        for(int i = 0; i < stationsArrJson.length(); i++){
+            //subwayLines.add(subwayLinesArrJson.getString(i));
+            //public Station(String name, HashMap<String, ArrayList< LocalTime >> schedule, ArrayList<String> subwayLines, ArrayList<String> directions, Boolean goTransit, Boolean viaRail, Boolean isInterchange){
+            String name = stationsArrJson.getJSONObject(i).getString("name");
+            //System.out.println("name: " + name);
+            JSONArray subwayLinesJson = stationsArrJson.getJSONObject(i).getJSONArray("subwayLines");
+
+            ArrayList<String> subwayLinesForStation = new ArrayList<String>(subwayLinesArrJson.length());
+
+            for(int j = 0; j < subwayLinesJson.length(); j++){
+                subwayLinesForStation.add(subwayLinesJson.getString(j));
+            }
+            //System.out.println("subwayLines for station: " + name + ": are: " + subwayLinesForStation);
+
+            JSONArray directionsJson = stationsArrJson.getJSONObject(i).getJSONArray("directions");
+
+            ArrayList<String> directions = new ArrayList<String>(directionsJson.length());
+
+            for(int l = 0; l < directionsJson.length(); l++){
+                directions.add(directionsJson.getString(l));
+            }
+
+            System.out.println("directions for station: " + name + ": are: " + directions);
+
+            //HashMap<String, ArrayList<LocalTime>> schedule = new HashMap<String, ArrayList<LocalTime>>();
+        }
 
 
 
 
-       // ArrayList<String> subwayLines = jsonObject.getJSONArray("subwayLines");
+
+
+        // ArrayList<String> subwayLines = jsonObject.getJSONArray("subwayLines");
 
 
         //read as json array
