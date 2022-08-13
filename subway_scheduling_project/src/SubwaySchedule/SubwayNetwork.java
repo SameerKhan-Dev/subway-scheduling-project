@@ -1,5 +1,10 @@
 package SubwaySchedule;
+import java.lang.reflect.Array;
+import java.time.temporal.ChronoUnit;
 import java.util.HashMap;
+import java.util.ArrayList; // import the ArrayList class
+import java.time.LocalTime; // import the LocalTime class
+import java.time.*;
 
 public class SubwayNetwork {
 
@@ -8,10 +13,15 @@ public class SubwayNetwork {
     private String region;
     private String totalNumStations;
     private String interchangeStationsList;
-    private String availableSubwayLines;
-    private String password;
+    private ArrayList<String> subwayLines = new ArrayList<String>(); // Create an ArrayList object
     HashMap<String, Station> stationsList = new HashMap<String, Station>();
 
+
+    // Constructor to receive first name, last name. Constructor name has to be same as class Name.
+    public SubwayNetwork(String region, ArrayList<String> subwayLines){
+        this.region= region;
+        this.subwayLines = subwayLines;
+    }
     // add stations to the stationsList
     public void addStation(Station station){
 
@@ -20,24 +30,36 @@ public class SubwayNetwork {
 
     }
 
-    public void getStationSchedule(String stationName){
+    public HashMap<String, ArrayList<LocalTime>> getStationSchedule(String stationName){
         if (this.stationsList.containsKey(stationName)){
             Station station = this.stationsList.get(stationName);
-            return station.getSchedules();
+            return station.getSchedule();
         } else {
             // return an error message
             //String errorMessage = "Error: Station does not exist";
             //return errorMessage;
+            System.out.println("Error invalid Station does not exist");
         }
+        return null;
     }
 
-    public void getNextArrivalTime(String stationName, String time, String direction){
+    public LocalTime getNextArrivalTime(String stationName, String time, String direction){
+        LocalTime localTime = null;
+
+        if (time == null){
+            localTime = LocalTime.now();
+            localTime = localTime.truncatedTo(ChronoUnit.SECONDS);
+        } else {
+            localTime = LocalTime.parse(time);
+        }
+
         if (this.stationsList.containsKey(stationName)){
             Station station = this.stationsList.get(stationName);
-            return station.determineNextArrivalTime(time, direction);
+            return station.getNextArrivalTime(localTime, direction);
         } else {
-
+            System.out.println("Error invalid Station does not exist");
         }
+        return null;
     }
 }
 
