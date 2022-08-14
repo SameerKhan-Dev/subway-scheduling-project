@@ -10,10 +10,10 @@ public class SubwayNetwork {
 
     // Setting variables as private to not give access directly.
     // Strings can be accessible throughout this class
-    private String region;
-    private String totalNumStations;
-    private String interchangeStationsList;
-    private ArrayList<String> subwayLines = new ArrayList<String>(); // Create an ArrayList object
+    public String region;
+    public String totalNumStations;
+    public String interchangeStationsList;
+    public ArrayList<String> subwayLines = new ArrayList<String>(); // Create an ArrayList object
     HashMap<String, Station> stationsList = new HashMap<String, Station>();
 
 
