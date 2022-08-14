@@ -63,8 +63,13 @@ public class SubwayNetwork {
                 localTime = LocalTime.now();
                 localTime = localTime.truncatedTo(ChronoUnit.SECONDS);
             } else {
-                localTime = LocalTime.parse(time);
-                System.out.println("localTime inputted is: " + localTime);
+                if(time.matches("^\\d\\d:\\d\\d$") || time.matches("^\\d\\d:\\d\\d:\\d\\d$")){
+                    localTime = LocalTime.parse(time);
+                    System.out.println("localTime inputted is: " + localTime);
+                } else {
+                    System.out.println("Error invalid time inputted. Input must be in HH:SS format example: 12:45");
+                    return null;
+                }
             }
 
             if (this.stationsList.containsKey(stationName)){

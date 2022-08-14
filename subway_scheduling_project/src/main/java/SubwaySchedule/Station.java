@@ -65,7 +65,7 @@ public class Station {
             }
             return nextArrivalTime;
         }catch(Exception e){
-            logger.debug("Exception occurred inside getNextArrivalTime method: " + e);
+            logger.debug("Exception occurred inside getNextArrivalTime method here: " + e);
             logger.error("Error occurred in program.");
             return null;
         }

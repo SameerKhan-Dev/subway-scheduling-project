@@ -23,19 +23,21 @@ public class RequestDetails {
 
             while (validInformationRequested == false){
                 String informationRequested = in.nextLine();
-                System.out.println("InforationRequested is: " + informationRequested);
                 if (informationRequested.equals("S")){
                     this.informationRequested = "schedule";
+                    System.out.println("InformationRequested is: schedule ");
                     validInformationRequested = true;
                 } else if (informationRequested.equals("A")) {
+                    System.out.println("InformationRequested is: Next Arrival Time");
                     this.informationRequested = "nextArrival";
                     validInformationRequested = true;
                 } else if (informationRequested.equals("E")){
                     validInformationRequested = true;
+                    System.out.println("Selected Exit Option.");
                     System.exit(0);
                 } else {
                     System.out.println("Invalid option specified.");
-                    System.out.println("Please enter 1 for getting Schedule, enter 2 for Next arrival Time, or enter 3 to exit the program.");
+                    System.out.println("Please enter (S) for getting Schedule, enter (A) for Next arrival Time, or enter (E) to exit the program.");
                 }
             }
             System.out.println("Please enter station name:");
@@ -43,6 +45,26 @@ public class RequestDetails {
             if(this.informationRequested.equals("nextArrival")){
                 System.out.println("Please enter reference time (to check next Arrival time) in format HH:MM (e.g 12:45) Or enter Default to use current time");
                 String timeInputted = in.nextLine();
+                Boolean timeInputFormatCorrect = timeInputted.matches("^\\d\\d:\\d\\d$") || timeInputted.matches("^\\d\\d:\\d\\d:\\d\\d$");
+                /*
+                              if(time.matches("^\\d\\d:\\d\\d$") || time.matches("^\\d\\d:\\d\\d:\\d\\d$")){
+                    localTime = LocalTime.parse(time);
+                    System.out.println("localTime inputted is: " + localTime);
+                } else {
+                    System.out.println("Error invalid time inputted. Input must be in HH:SS format example: 12:45");
+                    return null;
+                }
+                 */
+                while (!timeInputFormatCorrect){
+                    System.out.println("Error invalid time inputted. Input must be in HH:SS format example: 12:45");
+                    System.out.println("Please enter reference time (to check next Arrival time) in format HH:MM (e.g 12:45) Or enter Default to use current time. Or Enter E to exit program.");
+                    timeInputted = in.nextLine();
+                    timeInputFormatCorrect = timeInputted.matches("^\\d\\d:\\d\\d$") || timeInputted.matches("^\\d\\d:\\d\\d:\\d\\d$");
+                    if(timeInputted.equals("E")){
+                        System.exit(0);
+                    }
+                }
+
                 if (!timeInputted.equals("Default")){
                     this.timeProvided = timeInputted;
                 } else {

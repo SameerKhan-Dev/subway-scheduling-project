@@ -48,12 +48,12 @@ public class SubwaySchedule {
             Boolean continueProgram = true;
 
             while (continueProgram){
-                System.out.println("Do you want to continue getting schedules or next arrival times? Enter Y for yes, or N for no (to exit program");
+                System.out.println("Do you want to continue getting schedules or next arrival times? Enter Y for yes, or N for no (to exit program)");
                 Scanner in = new Scanner(System.in);
                 String userInput = in.nextLine();
                 if (userInput.equals("N")) {
                     continueProgram = false;
-                } else {
+                } else if(userInput.equals("Y")){
                     requestDetails.getInputForRequestDetails();
 
                     if (requestDetails.informationRequested.equals("schedule")){
@@ -61,6 +61,8 @@ public class SubwaySchedule {
                     } else if (requestDetails.informationRequested.equals("nextArrival")){
                         getNextArrivalTime(subwayNetwork, requestDetails);
                     }
+                } else {
+                    System.out.println("Invalid option entered.");
                 }
             }
         }catch (Exception e) {
@@ -92,7 +94,7 @@ public class SubwaySchedule {
             } else {
                 System.out.println("Invalid Input provided.");
             }
-            throw new Exception("Exception message");
+            //throw new Exception("Exception message");
         } catch (Exception e){
             logger.debug("Exception occurred inside getNextArrivalTime method: " + e);
             logger.error("Error occurred in program.");
