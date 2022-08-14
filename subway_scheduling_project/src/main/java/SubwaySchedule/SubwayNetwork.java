@@ -28,44 +28,57 @@ public class SubwayNetwork {
     }
     // add stations to the stationsList
     public void addStation(Station station){
-
-        //this.stationsList[station.name] = station;
-        this.stationsList.put(station.name, station);
-
+        try{
+            this.stationsList.put(station.name, station);
+        }catch(Exception e){
+            logger.debug("Exception occurred inside addStation method: " + e);
+            logger.error("Error occurred in program.");
+        }
     }
 
     public HashMap<String, ArrayList<LocalTime>> getStationSchedule(String stationName){
-        if (this.stationsList.containsKey(stationName)){
-            Station station = this.stationsList.get(stationName);
-            return station.getSchedule();
-        } else {
-            // return an error message
-            //String errorMessage = "Error: Station does not exist";
-            //return errorMessage;
-            System.out.println("Error invalid Station does not exist");
+        try{
+            if (this.stationsList.containsKey(stationName)){
+                Station station = this.stationsList.get(stationName);
+                return station.getSchedule();
+            } else {
+                // return an error message
+                //String errorMessage = "Error: Station does not exist";
+                //return errorMessage;
+                System.out.println("Error invalid Station does not exist");
+            }
+            return null;
+        }catch(Exception e){
+            logger.debug("Exception occurred inside getStationSchedule method: " + e);
+            logger.error("Error occurred in program.");
+            return null;
         }
-        return null;
     }
 
     public LocalTime getNextArrivalTime(String stationName, String time, String direction){
-        logger.error("Error Message from getNextArrivalTime!");
-        LocalTime localTime = null;
+        try{
+            LocalTime localTime = null;
 
-        if (time == null){
-            localTime = LocalTime.now();
-            localTime = localTime.truncatedTo(ChronoUnit.SECONDS);
-        } else {
-            localTime = LocalTime.parse(time);
-            System.out.println("localTime inputted is: " + localTime);
-        }
+            if (time == null){
+                localTime = LocalTime.now();
+                localTime = localTime.truncatedTo(ChronoUnit.SECONDS);
+            } else {
+                localTime = LocalTime.parse(time);
+                System.out.println("localTime inputted is: " + localTime);
+            }
 
-        if (this.stationsList.containsKey(stationName)){
-            Station station = this.stationsList.get(stationName);
-            return station.getNextArrivalTime(localTime, direction);
-        } else {
-            System.out.println("Error invalid Station inputted, does not exist");
+            if (this.stationsList.containsKey(stationName)){
+                Station station = this.stationsList.get(stationName);
+                return station.getNextArrivalTime(localTime, direction);
+            } else {
+                System.out.println("Error invalid Station inputted, does not exist");
+            }
+            return null;
+        }catch(Exception e){
+            logger.debug("Exception occurred inside getNextArrivalTime method: " + e);
+            logger.error("Error occurred in program.");
+            return null;
         }
-        return null;
     }
 }
 

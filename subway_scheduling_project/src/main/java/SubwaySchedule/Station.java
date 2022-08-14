@@ -1,5 +1,8 @@
 package SubwaySchedule;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.lang.reflect.Array;
 import java.util.HashMap;
 import java.util.ArrayList; // import the ArrayList class
@@ -8,6 +11,7 @@ import java.time.LocalTime; // import the LocalTime class
 
 
 public class Station {
+    private static final Logger logger = LoggerFactory.getLogger(SubwaySchedule.class);
 
     // Setting variables as private to not give access directly.
     // Strings can be accessible throughout this class
@@ -31,37 +35,49 @@ public class Station {
     }
 
     public LocalTime getNextArrivalTime(LocalTime time, String direction){
-        Boolean validDirection = false;
-        LocalTime nextArrivalTime = null;
+        try{
+            Boolean validDirection = false;
+            LocalTime nextArrivalTime = null;
 
-        for (int i = 0; i < this.directions.size(); i++){
-            if (this.directions.get(i).equals(direction)){
-                validDirection = true;
-                break;
-            }
-        }
-        if (validDirection) {
-            System.out.println("Station Class: inside here 1");
-            //int minutes = Integer.parseInt(time.substring(0, 2)) * 60 + Integer.parseInt(time.substring(3));
-            ArrayList<LocalTime> scheduleForDirection = this.schedule.get(direction);
-
-            nextArrivalTime = scheduleForDirection.get(0);
-
-            for (int i = 0; i < scheduleForDirection.size() ; i++){
-                LocalTime currentArrivalTime = scheduleForDirection.get(i);
-                int value = currentArrivalTime.compareTo(time);
-                if (value >= 0){
-                    nextArrivalTime = currentArrivalTime;
+            for (int i = 0; i < this.directions.size(); i++){
+                if (this.directions.get(i).equals(direction)){
+                    validDirection = true;
                     break;
                 }
             }
-        } else {
-            System.out.println("Error: Invalid direction inputted for this Station. Valid directions for station: " + this.name + " are: " + this.directions);
+            if (validDirection) {
+                System.out.println("Station Class: inside here 1");
+                //int minutes = Integer.parseInt(time.substring(0, 2)) * 60 + Integer.parseInt(time.substring(3));
+                ArrayList<LocalTime> scheduleForDirection = this.schedule.get(direction);
+
+                nextArrivalTime = scheduleForDirection.get(0);
+
+                for (int i = 0; i < scheduleForDirection.size() ; i++){
+                    LocalTime currentArrivalTime = scheduleForDirection.get(i);
+                    int value = currentArrivalTime.compareTo(time);
+                    if (value >= 0){
+                        nextArrivalTime = currentArrivalTime;
+                        break;
+                    }
+                }
+            } else {
+                System.out.println("Error: Invalid direction inputted for this Station. Valid directions for station: " + this.name + " are: " + this.directions);
+            }
+            return nextArrivalTime;
+        }catch(Exception e){
+            logger.debug("Exception occurred inside getNextArrivalTime method: " + e);
+            logger.error("Error occurred in program.");
+            return null;
         }
-        return nextArrivalTime;
     }
     public HashMap<String, ArrayList<LocalTime>> getSchedule(){
-        return this.schedule;
+        try{
+            return this.schedule;
+        }catch(Exception e){
+            logger.debug("Exception occurred inside getSchedule method: " + e);
+            logger.error("Error occurred in program.");
+            return null;
+        }
     }
 }
 

@@ -20,28 +20,11 @@ import java.util.logging.Level;
 //import java.util.logging.Logger;
 
 public class SubwaySchedule {
-    //private static final Logger LOGGER = Logger.getLogger(SubwaySchedule.class.getName());
-
-
-
     private static final Logger logger = LoggerFactory.getLogger(SubwaySchedule.class);
 
     public static void main(String[] args) throws IOException {
-        logger.info("Example log from {}");
-        logger.error("Error Message!");
-        //System.out.println("LOGGER.getHandlers()" + logger.  );
-        /*Handler consoleHandler = null;
-        consoleHandler = new ConsoleHandler();
-        LOGGER.addHandler(consoleHandler);
-        */
-        // - LOGGER.setLevel(Level.ALL);
-
-
-        // - LOGGER.config("Configuration done.");
-        // - LOGGER.log(Level.OFF,"Hello from Logger");
-        // - LOGGER.setUseParentHandlers(false);
-
-        System.out.println("Hello World!");
+        //logger.info("Example log from {}");
+        //logger.error("Error Message!");
         try{
             // read in string
             String data = new String(Files.readAllBytes(Paths.get("./subwayData.json")));
@@ -81,26 +64,38 @@ public class SubwaySchedule {
                 }
             }
         }catch (Exception e) {
-            System.out.println("Error in processing program. Exiting Program");
+            logger.debug("Exception occurred inside main method: " + e);
+            logger.error("Error occurred in program.");
         }
     }
     public static void getSchedule(SubwayNetwork subwayNetwork, RequestDetails requestDetails){
-        HashMap<String, ArrayList<LocalTime>> stationSchedule = subwayNetwork.getStationSchedule(requestDetails.stationRequested);
+        try{
+            HashMap<String, ArrayList<LocalTime>> stationSchedule = subwayNetwork.getStationSchedule(requestDetails.stationRequested);
 
-        if (stationSchedule != null){
-            for (Map.Entry<String, ArrayList<LocalTime>> entry : stationSchedule.entrySet()) {
-                String key = entry.getKey();
-                ArrayList<LocalTime> value = entry.getValue();
-                System.out.println("For station: " + key + " for direction " + key + "the Schedule Data is: " + value);
+            if (stationSchedule != null){
+                for (Map.Entry<String, ArrayList<LocalTime>> entry : stationSchedule.entrySet()) {
+                    String key = entry.getKey();
+                    ArrayList<LocalTime> value = entry.getValue();
+                    System.out.println("For station: " + key + " for direction " + key + "the Schedule Data is: " + value);
+                }
             }
+        } catch (Exception e){
+            logger.debug("Exception occurred inside getSchedule method: " + e);
+            logger.error("Error occurred in program.");
         }
     }
     public static void getNextArrivalTime(SubwayNetwork subwayNetwork, RequestDetails requestDetails){
-        LocalTime nextArrivalTime = subwayNetwork.getNextArrivalTime(requestDetails.stationRequested, requestDetails.timeProvided, requestDetails.direction);
-        if (nextArrivalTime != null){
-            System.out.println("For station: " + requestDetails.stationRequested + " the next arrival time is: " + nextArrivalTime + " for direction: " + requestDetails.direction);
-        } else {
-            System.out.println("Invalid Input provided.");
+        try {
+            LocalTime nextArrivalTime = subwayNetwork.getNextArrivalTime(requestDetails.stationRequested, requestDetails.timeProvided, requestDetails.direction);
+            if (nextArrivalTime != null){
+                System.out.println("For station: " + requestDetails.stationRequested + " the next arrival time is: " + nextArrivalTime + " for direction: " + requestDetails.direction);
+            } else {
+                System.out.println("Invalid Input provided.");
+            }
+            throw new Exception("Exception message");
+        } catch (Exception e){
+            logger.debug("Exception occurred inside getNextArrivalTime method: " + e);
+            logger.error("Error occurred in program.");
         }
     }
 }
