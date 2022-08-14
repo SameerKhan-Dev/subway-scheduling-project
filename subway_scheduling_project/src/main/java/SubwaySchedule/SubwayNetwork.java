@@ -44,6 +44,7 @@ public class SubwayNetwork {
     }
 
     public LocalTime getNextArrivalTime(String stationName, String time, String direction){
+        
         LocalTime localTime = null;
 
         if (time == null){
@@ -51,13 +52,14 @@ public class SubwayNetwork {
             localTime = localTime.truncatedTo(ChronoUnit.SECONDS);
         } else {
             localTime = LocalTime.parse(time);
+            System.out.println("localTime inputted is: " + localTime);
         }
 
         if (this.stationsList.containsKey(stationName)){
             Station station = this.stationsList.get(stationName);
             return station.getNextArrivalTime(localTime, direction);
         } else {
-            System.out.println("Error invalid Station does not exist");
+            System.out.println("Error invalid Station inputted, does not exist");
         }
         return null;
     }

@@ -6,7 +6,7 @@ public class RequestDetails {
     public String informationRequested;
     public String stationRequested;
     public String timeProvided;
-
+    public String direction;
     public RequestDetails(){
     }
     public void getInputForRequestDetails(){
@@ -35,13 +35,15 @@ public class RequestDetails {
         System.out.println("Please enter station name:");
         this.stationRequested = in.nextLine();
         if(this.informationRequested.equals("nextArrival")){
-            System.out.println("Please enter reference time (to check next Arrival time) in format HH:MM:SS. Or enter Default to use current time");
+            System.out.println("Please enter reference time (to check next Arrival time) in format HH:MM (e.g 12:45) Or enter Default to use current time");
             String timeInputted = in.nextLine();
-            if (timeInputted != "Default"){
+            if (!timeInputted.equals("Default")){
                 this.timeProvided = timeInputted;
             } else {
                 this.timeProvided = null;
             }
+            System.out.println("Please enter direction. E.g North, South, East, or West");
+            this.direction = in.nextLine();
         }
     }
 }

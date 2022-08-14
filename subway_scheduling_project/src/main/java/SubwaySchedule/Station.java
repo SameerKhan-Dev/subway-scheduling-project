@@ -41,13 +41,13 @@ public class Station {
             }
         }
         if (validDirection) {
-
+            System.out.println("Station Class: inside here 1");
             //int minutes = Integer.parseInt(time.substring(0, 2)) * 60 + Integer.parseInt(time.substring(3));
             ArrayList<LocalTime> scheduleForDirection = this.schedule.get(direction);
 
             nextArrivalTime = scheduleForDirection.get(0);
 
-            for (int i = 0; i < this.schedule.size() ; i++){
+            for (int i = 0; i < scheduleForDirection.size() ; i++){
                 LocalTime currentArrivalTime = scheduleForDirection.get(i);
                 int value = currentArrivalTime.compareTo(time);
                 if (value >= 0){
@@ -56,7 +56,7 @@ public class Station {
                 }
             }
         } else {
-            System.out.println("Error: Invalid Direction");
+            System.out.println("Error: Invalid direction inputted for this Station. Valid directions for station: " + this.name + " are: " + this.directions);
         }
         return nextArrivalTime;
     }

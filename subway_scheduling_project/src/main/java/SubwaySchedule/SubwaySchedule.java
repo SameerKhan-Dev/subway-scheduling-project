@@ -55,62 +55,48 @@ public class SubwaySchedule {
         RequestDetails requestDetails = new RequestDetails();
         requestDetails.getInputForRequestDetails();
 
+        if (requestDetails.informationRequested.equals("schedule")){
+            getSchedule(subwayNetwork, requestDetails);
+        } else if (requestDetails.informationRequested.equals("nextArrival")){
+            getNextArrivalTime(subwayNetwork, requestDetails);
+        }
+        Boolean continueProgram = true;
 
-        /*
-        String stationRequested = null;
-        // extract args arguments
-
-        if (args[0] == "schedule"){
-            if (args[1]){
-
+        while (continueProgram){
+            System.out.println("Do you want to continue getting schedules or next arrival times? Enter Y for yes, or N for no (to exit program");
+            Scanner in = new Scanner(System.in);
+            String userInput = in.nextLine();
+            if (userInput.equals("N")) {
+                continueProgram = false;
             } else {
+                requestDetails.getInputForRequestDetails();
 
+                if (requestDetails.informationRequested.equals("schedule")){
+                    getSchedule(subwayNetwork, requestDetails);
+                } else if (requestDetails.informationRequested.equals("nextArrival")){
+                    getNextArrivalTime(subwayNetwork, requestDetails);
+                }
             }
-        } else if (args[0] == "nextArrival"){
-            if (args[1] && args[2]){
-
-            } else {
-
-            }
-        } else {
-            System.out.println("Incorrect Input: Please run program with command line arguments in the following format:");
-            System.out.println("Input 1: Specify information type: schedule or nextArrival");
-            System.out.println("Input 2: Specify station name: e.g type: Bloor-Yonge");
-            System.out.println("Input 3: If ");
         }
-            */
-        /*
-          Def get_nextArrival_time(station_name, direction, time): {
-		// Confirm time is in valid format:
-
-		Return subwayNetwork.get_next_arrival_time_for_station (station_name, time, direction)
-
-        }
-        Def get_Station_Schedules(station_name): {
-            Return subwayNetwork.getSchedules(station_name)
-
-        }
-
-
-
-
-         */
-
-
     }
     public static void getSchedule(SubwayNetwork subwayNetwork, RequestDetails requestDetails){
         HashMap<String, ArrayList<LocalTime>> stationSchedule = subwayNetwork.getStationSchedule(requestDetails.stationRequested);
 
         if (stationSchedule != null){
-            for (Map.Entry<String, ArrayList<LocalTime>> entry2 : stationSchedule.entrySet()) {
-                String key2 = entry2.getKey();
-                ArrayList<LocalTime> value2 = entry2.getValue();
-                System.out.println("For station: " + key2 + " for direction " + key2 + "the Schedule Data is: " + value2);
+            for (Map.Entry<String, ArrayList<LocalTime>> entry : stationSchedule.entrySet()) {
+                String key = entry.getKey();
+                ArrayList<LocalTime> value = entry.getValue();
+                System.out.println("For station: " + key + " for direction " + key + "the Schedule Data is: " + value);
             }
         }
     }
     public static void getNextArrivalTime(SubwayNetwork subwayNetwork, RequestDetails requestDetails){
-
+        LocalTime nextArrivalTime = subwayNetwork.getNextArrivalTime(requestDetails.stationRequested, requestDetails.timeProvided, requestDetails.direction);
+        if (nextArrivalTime != null){
+            System.out.println("For station: " + requestDetails.stationRequested + " the next arrival time is: " + nextArrivalTime + " for direction: " + requestDetails.direction);
+        } else {
+            System.out.println("Invalid Input provided.");
+        }
     }
 }
 
