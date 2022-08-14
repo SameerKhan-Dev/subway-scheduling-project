@@ -1,4 +1,7 @@
 package SubwaySchedule;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.lang.reflect.Array;
 import java.time.temporal.ChronoUnit;
 import java.util.HashMap;
@@ -7,6 +10,7 @@ import java.time.LocalTime; // import the LocalTime class
 import java.time.*;
 
 public class SubwayNetwork {
+    private static final Logger logger = LoggerFactory.getLogger(SubwaySchedule.class);
 
     // Setting variables as private to not give access directly.
     // Strings can be accessible throughout this class
@@ -44,7 +48,7 @@ public class SubwayNetwork {
     }
 
     public LocalTime getNextArrivalTime(String stationName, String time, String direction){
-        
+        logger.error("Error Message from getNextArrivalTime!");
         LocalTime localTime = null;
 
         if (time == null){

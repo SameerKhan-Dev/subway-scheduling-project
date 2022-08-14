@@ -1,13 +1,5 @@
 package SubwaySchedule;
-
-
-import com.google.gson.Gson;
-import org.json.JSONArray;
 import org.json.JSONObject;
-import org.json.JSONTokener;
-
-import java.io.InputStream;
-
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -16,67 +8,80 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.*;
 import java.util.Scanner;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import java.util.logging.Level;
+//import java.util.logging.Logger;
+import java.util.logging.*;
+import java.util.logging.ConsoleHandler;
+import java.util.logging.FileHandler;
+import java.util.logging.Handler;
+import java.util.logging.Level;
+//import java.util.logging.Logger;
+
 public class SubwaySchedule {
+    //private static final Logger LOGGER = Logger.getLogger(SubwaySchedule.class.getName());
+
+
+
+    private static final Logger logger = LoggerFactory.getLogger(SubwaySchedule.class);
+
     public static void main(String[] args) throws IOException {
-        // read in string
+        logger.info("Example log from {}");
+        logger.error("Error Message!");
+        //System.out.println("LOGGER.getHandlers()" + logger.  );
+        /*Handler consoleHandler = null;
+        consoleHandler = new ConsoleHandler();
+        LOGGER.addHandler(consoleHandler);
+        */
+        // - LOGGER.setLevel(Level.ALL);
 
-        //String dataRequested = args[0];
-        //String stationName = args[1];
-        //String currentTime = args[2];
 
-        String data = new String(Files.readAllBytes(Paths.get("./subwayData.json")));
-        JSONObject jsonObject = new JSONObject(data);
-        // System.out.println("data is: " + data);
+        // - LOGGER.config("Configuration done.");
+        // - LOGGER.log(Level.OFF,"Hello from Logger");
+        // - LOGGER.setUseParentHandlers(false);
 
-        String region = jsonObject.getJSONObject("data").getString("region");
+        System.out.println("Hello World!");
+        try{
+            // read in string
+            String data = new String(Files.readAllBytes(Paths.get("./subwayData.json")));
+            JSONObject jsonObject = new JSONObject(data);
 
-        ArrayList<String> subwayLines = HelperClassSubway.extractSubwayLines(jsonObject);
-        SubwayNetwork subwayNetwork = new SubwayNetwork(region, subwayLines);
+            String region = jsonObject.getJSONObject("data").getString("region");
 
-        //System.out.println("subwayLines is: " + subwayLines);
-        HelperClassSubway.addStationsToSubwayNetwork(jsonObject, subwayNetwork);
-        //Gson gson = new Gson();
-        //System.out.println("subwayNetwork populated is: " +  gson.toJson(subwayNetwork));
-        //System.out.println("subwayNetwork populated is: " +  subwayNetwork.stationsList);
+            ArrayList<String> subwayLines = HelperClassSubway.extractSubwayLines(jsonObject);
+            SubwayNetwork subwayNetwork = new SubwayNetwork(region, subwayLines);
 
-        //System.out.println("subwayNetwork populated is: " +  subwayNetwork.stationsList);
-        for (Map.Entry<String, Station> entry : subwayNetwork.stationsList.entrySet()) {
-            String key = entry.getKey();
-            Station value = entry.getValue();
-            //System.out.println("For station: " + key + "the station Data is: " + value);
-            HashMap<String, ArrayList<LocalTime>> scheduleMap = value.schedule;
-            for (Map.Entry<String, ArrayList<LocalTime>> entry2 : scheduleMap.entrySet()) {
-                String key2 = entry2.getKey();
-                ArrayList<LocalTime> value2 = entry2.getValue();
-               // System.out.println("For station: " + key + " for direction " + key2 + "the Schedule Data is: " + value2);
+            HelperClassSubway.addStationsToSubwayNetwork(jsonObject, subwayNetwork);
+
+            RequestDetails requestDetails = new RequestDetails();
+            requestDetails.getInputForRequestDetails();
+
+            if (requestDetails.informationRequested.equals("schedule")){
+                getSchedule(subwayNetwork, requestDetails);
+            } else if (requestDetails.informationRequested.equals("nextArrival")){
+                getNextArrivalTime(subwayNetwork, requestDetails);
             }
-        }
+            Boolean continueProgram = true;
 
-        RequestDetails requestDetails = new RequestDetails();
-        requestDetails.getInputForRequestDetails();
+            while (continueProgram){
+                System.out.println("Do you want to continue getting schedules or next arrival times? Enter Y for yes, or N for no (to exit program");
+                Scanner in = new Scanner(System.in);
+                String userInput = in.nextLine();
+                if (userInput.equals("N")) {
+                    continueProgram = false;
+                } else {
+                    requestDetails.getInputForRequestDetails();
 
-        if (requestDetails.informationRequested.equals("schedule")){
-            getSchedule(subwayNetwork, requestDetails);
-        } else if (requestDetails.informationRequested.equals("nextArrival")){
-            getNextArrivalTime(subwayNetwork, requestDetails);
-        }
-        Boolean continueProgram = true;
-
-        while (continueProgram){
-            System.out.println("Do you want to continue getting schedules or next arrival times? Enter Y for yes, or N for no (to exit program");
-            Scanner in = new Scanner(System.in);
-            String userInput = in.nextLine();
-            if (userInput.equals("N")) {
-                continueProgram = false;
-            } else {
-                requestDetails.getInputForRequestDetails();
-
-                if (requestDetails.informationRequested.equals("schedule")){
-                    getSchedule(subwayNetwork, requestDetails);
-                } else if (requestDetails.informationRequested.equals("nextArrival")){
-                    getNextArrivalTime(subwayNetwork, requestDetails);
+                    if (requestDetails.informationRequested.equals("schedule")){
+                        getSchedule(subwayNetwork, requestDetails);
+                    } else if (requestDetails.informationRequested.equals("nextArrival")){
+                        getNextArrivalTime(subwayNetwork, requestDetails);
+                    }
                 }
             }
+        }catch (Exception e) {
+            System.out.println("Error in processing program. Exiting Program");
         }
     }
     public static void getSchedule(SubwayNetwork subwayNetwork, RequestDetails requestDetails){
