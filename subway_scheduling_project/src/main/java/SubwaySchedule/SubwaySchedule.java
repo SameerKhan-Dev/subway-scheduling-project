@@ -15,10 +15,15 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.*;
-
+import java.util.Scanner;
 public class SubwaySchedule {
     public static void main(String[] args) throws IOException {
         // read in string
+
+        //String dataRequested = args[0];
+        //String stationName = args[1];
+        //String currentTime = args[2];
+
         String data = new String(Files.readAllBytes(Paths.get("./subwayData.json")));
         JSONObject jsonObject = new JSONObject(data);
         // System.out.println("data is: " + data);
@@ -32,9 +37,9 @@ public class SubwaySchedule {
         HelperClassSubway.addStationsToSubwayNetwork(jsonObject, subwayNetwork);
         //Gson gson = new Gson();
         //System.out.println("subwayNetwork populated is: " +  gson.toJson(subwayNetwork));
-        System.out.println("subwayNetwork populated is: " +  subwayNetwork.stationsList);
+        //System.out.println("subwayNetwork populated is: " +  subwayNetwork.stationsList);
 
-        System.out.println("subwayNetwork populated is: " +  subwayNetwork.stationsList);
+        //System.out.println("subwayNetwork populated is: " +  subwayNetwork.stationsList);
         for (Map.Entry<String, Station> entry : subwayNetwork.stationsList.entrySet()) {
             String key = entry.getKey();
             Station value = entry.getValue();
@@ -43,66 +48,69 @@ public class SubwaySchedule {
             for (Map.Entry<String, ArrayList<LocalTime>> entry2 : scheduleMap.entrySet()) {
                 String key2 = entry2.getKey();
                 ArrayList<LocalTime> value2 = entry2.getValue();
-                System.out.println("For station: " + key + " for direction " + key2 + "the Schedule Data is: " + value2);
+               // System.out.println("For station: " + key + " for direction " + key2 + "the Schedule Data is: " + value2);
             }
+        }
+
+        RequestDetails requestDetails = new RequestDetails();
+        requestDetails.getInputForRequestDetails();
+
+
+        /*
+        String stationRequested = null;
+        // extract args arguments
+
+        if (args[0] == "schedule"){
+            if (args[1]){
+
+            } else {
+
+            }
+        } else if (args[0] == "nextArrival"){
+            if (args[1] && args[2]){
+
+            } else {
+
+            }
+        } else {
+            System.out.println("Incorrect Input: Please run program with command line arguments in the following format:");
+            System.out.println("Input 1: Specify information type: schedule or nextArrival");
+            System.out.println("Input 2: Specify station name: e.g type: Bloor-Yonge");
+            System.out.println("Input 3: If ");
+        }
+            */
+        /*
+          Def get_nextArrival_time(station_name, direction, time): {
+		// Confirm time is in valid format:
+
+		Return subwayNetwork.get_next_arrival_time_for_station (station_name, time, direction)
+
+        }
+        Def get_Station_Schedules(station_name): {
+            Return subwayNetwork.getSchedules(station_name)
 
         }
 
-        /* 32 to
-        JSONArray stationsArrJson = jsonObject.getJSONObject("data").getJSONArray("stations");
 
-        for(int i = 0; i < stationsArrJson.length(); i++){
-            //subwayLines.add(subwayLinesArrJson.getString(i));
-            //public Station(String name, HashMap<String, ArrayList< LocalTime >> schedule, ArrayList<String> subwayLines, ArrayList<String> directions, Boolean goTransit, Boolean viaRail, Boolean isInterchange){
-            String name = stationsArrJson.getJSONObject(i).getString("name");
-            //System.out.println("name: " + name);
-            JSONArray subwayLinesJson = stationsArrJson.getJSONObject(i).getJSONArray("subwayLines");
 
-            ArrayList<String> subwayLinesForStation = new ArrayList<String>();
 
-            for(int j = 0; j < subwayLinesJson.length(); j++){
-                subwayLinesForStation.add(subwayLinesJson.getString(j));
+         */
+
+
+    }
+    public static void getSchedule(SubwayNetwork subwayNetwork, RequestDetails requestDetails){
+        HashMap<String, ArrayList<LocalTime>> stationSchedule = subwayNetwork.getStationSchedule(requestDetails.stationRequested);
+
+        if (stationSchedule != null){
+            for (Map.Entry<String, ArrayList<LocalTime>> entry2 : stationSchedule.entrySet()) {
+                String key2 = entry2.getKey();
+                ArrayList<LocalTime> value2 = entry2.getValue();
+                System.out.println("For station: " + key2 + " for direction " + key2 + "the Schedule Data is: " + value2);
             }
-            //System.out.println("subwayLines for station: " + name + ": are: " + subwayLinesForStation);
+        }
+    }
+    public static void getNextArrivalTime(SubwayNetwork subwayNetwork, RequestDetails requestDetails){
 
-            JSONArray directionsJson = stationsArrJson.getJSONObject(i).getJSONArray("directions");
-
-            ArrayList<String> directions = new ArrayList<String>(directionsJson.length());
-
-            for(int l = 0; l < directionsJson.length(); l++){
-                directions.add(directionsJson.getString(l));
-            }
-
-            //System.out.println("directions for station: " + name + ": are: " + directions);
-            // Boolean goTransit, Boolean viaRail, Boolean isInterchange
-            //String stationName = stationsArrJson.getJSONObject(i).getString("name");
-            Boolean goTransit = stationsArrJson.getJSONObject(i).getBoolean("goTransit");
-            Boolean viaRail = stationsArrJson.getJSONObject(i).getBoolean("viaRail");
-            Boolean isInterchange = stationsArrJson.getJSONObject(i).getBoolean("isInterchange");
-
-            //System.out.println("Booleans for  station: " + name + ": are: " + goTransit + " " + viaRail + "  " + isInterchange);
-
-            JSONObject scheduleJson = stationsArrJson.getJSONObject(i).getJSONObject("schedule");
-            HashMap<String, ArrayList<LocalTime>> schedule = new HashMap<String, ArrayList<LocalTime>>();
-
-            for (int k = 0; k < directions.size(); k++){
-                ArrayList<LocalTime> scheduleForDirection = new ArrayList<LocalTime>();
-                String currentDirection = directions.get(k);
-                System.out.println("currentDirection is: for Station: " + name + " : " + currentDirection);
-                schedule.put(currentDirection, scheduleForDirection);
-
-                JSONArray scheduleForDirectionJson = scheduleJson.getJSONArray(currentDirection);
-                for(int s = 0; s < scheduleForDirectionJson.length(); s++){
-                    String timeInStringFormat = scheduleForDirectionJson.getString(s);
-                    LocalTime time = LocalTime.parse(timeInStringFormat);
-                    schedule.get(currentDirection).add(time);
-                }
-
-            }
-            // System.out.println("schedule is: for station:  " +name + " : " + schedule);
-
-            //stationsArrJson.getJSONObject(i).getJSONObject("schedule").get
-            end 86 */
     }
 }
 
