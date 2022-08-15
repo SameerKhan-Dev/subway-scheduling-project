@@ -23,10 +23,9 @@ public class SubwaySchedule {
     private static final Logger logger = LoggerFactory.getLogger(SubwaySchedule.class);
 
     public static void main(String[] args) throws IOException {
-        //logger.info("Example log from {}");
-        //logger.error("Error Message!");
+
         try{
-            // read in string
+            // read in JSON subway network data from JSON file get schedule and station data
             String data = new String(Files.readAllBytes(Paths.get("./subwayData.json")));
             JSONObject jsonObject = new JSONObject(data);
 
@@ -35,8 +34,11 @@ public class SubwaySchedule {
             ArrayList<String> subwayLines = HelperClassSubway.extractSubwayLines(jsonObject);
             SubwayNetwork subwayNetwork = new SubwayNetwork(region, subwayLines);
 
+            // populate subway network
             HelperClassSubway.addStationsToSubwayNetwork(jsonObject, subwayNetwork);
 
+            // Iniitate Command-line request details questionaire to ask user what information they are
+            // looking for such as schedule or next arrival time, and for what station etc.
             RequestDetails requestDetails = new RequestDetails();
             requestDetails.getInputForRequestDetails();
 
@@ -47,6 +49,7 @@ public class SubwaySchedule {
             }
             Boolean continueProgram = true;
 
+            // Establish a continuous questionnaire and ask use if they would like to continue getting schedules or next arrival times
             while (continueProgram){
                 System.out.println("Do you want to continue getting schedules or next arrival times? Enter Y for yes, or N for no (to exit program)");
                 Scanner in = new Scanner(System.in);
@@ -70,6 +73,7 @@ public class SubwaySchedule {
             logger.error("Error occurred in program.");
         }
     }
+    // obtains schedule from the subway network and prints out the result
     public static void getSchedule(SubwayNetwork subwayNetwork, RequestDetails requestDetails){
         try{
             HashMap<String, ArrayList<LocalTime>> stationSchedule = subwayNetwork.getStationSchedule(requestDetails.stationRequested);
@@ -86,6 +90,8 @@ public class SubwaySchedule {
             logger.error("Error occurred in program.");
         }
     }
+
+    // obtains next arrival time from the subway network and prints out the result
     public static void getNextArrivalTime(SubwayNetwork subwayNetwork, RequestDetails requestDetails){
         try {
             LocalTime nextArrivalTime = subwayNetwork.getNextArrivalTime(requestDetails.stationRequested, requestDetails.timeProvided, requestDetails.direction);

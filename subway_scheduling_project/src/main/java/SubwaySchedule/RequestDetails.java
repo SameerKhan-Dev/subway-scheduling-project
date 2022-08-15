@@ -14,6 +14,7 @@ public class RequestDetails {
     public String direction;
     public RequestDetails(){
     }
+    // get user's command line input to build the request details (i.e. schedule or next arrival time?, station? time? direction?)
     public void getInputForRequestDetails(){
         try {
             // Using Scanner for Getting Input from User
@@ -45,16 +46,9 @@ public class RequestDetails {
             if(this.informationRequested.equals("nextArrival")){
                 System.out.println("Please enter reference time (to check next Arrival time) in format HH:MM (e.g 12:45) Or enter Default to use current time");
                 String timeInputted = in.nextLine();
+                // validate that time matches required format
                 Boolean timeInputFormatCorrect = timeInputted.matches("^\\d\\d:\\d\\d$") || timeInputted.matches("^\\d\\d:\\d\\d:\\d\\d$");
-                /*
-                              if(time.matches("^\\d\\d:\\d\\d$") || time.matches("^\\d\\d:\\d\\d:\\d\\d$")){
-                    localTime = LocalTime.parse(time);
-                    System.out.println("localTime inputted is: " + localTime);
-                } else {
-                    System.out.println("Error invalid time inputted. Input must be in HH:SS format example: 12:45");
-                    return null;
-                }
-                 */
+
                 while (!timeInputFormatCorrect){
                     System.out.println("Error invalid time inputted. Input must be in HH:SS format example: 12:45");
                     System.out.println("Please enter reference time (to check next Arrival time) in format HH:MM (e.g 12:45) Or enter Default to use current time. Or Enter E to exit program.");
@@ -64,7 +58,7 @@ public class RequestDetails {
                         System.exit(0);
                     }
                 }
-
+                // assign timeProvided value of requestDetails based on user time input
                 if (!timeInputted.equals("Default")){
                     this.timeProvided = timeInputted;
                 } else {

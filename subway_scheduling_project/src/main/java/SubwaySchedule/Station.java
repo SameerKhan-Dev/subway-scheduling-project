@@ -33,7 +33,7 @@ public class Station {
         this.viaRail = viaRail;
         this.isInterchange = isInterchange;
     }
-
+    // return the next arrival time for the current station based on direction and time reference
     public LocalTime getNextArrivalTime(LocalTime time, String direction){
         try{
             Boolean validDirection = false;
@@ -70,6 +70,7 @@ public class Station {
             return null;
         }
     }
+    // return the schedule for current station
     public HashMap<String, ArrayList<LocalTime>> getSchedule(){
         try{
             return this.schedule;

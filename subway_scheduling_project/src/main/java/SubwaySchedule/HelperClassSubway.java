@@ -7,7 +7,7 @@ import org.slf4j.LoggerFactory;
 import java.time.LocalTime; // import the LocalTime class
 import java.util.ArrayList;
 import java.util.HashMap;
-
+// this class is used as a helper class to help extract json data from file, format it and populate SubwayNetwork object/
 public class HelperClassSubway {
     private HelperClassSubway() {
     }
@@ -15,6 +15,7 @@ public class HelperClassSubway {
     private static final Logger logger = LoggerFactory.getLogger(SubwaySchedule.class);
 
     public static ArrayList<String> extractSubwayLines(JSONObject jsonObject) {
+        // iterate through json and extract, build and return subwayLines data
         try {
             JSONArray subwayLinesArrJson = jsonObject.getJSONObject("data").getJSONArray("subwayLines");
 
@@ -32,6 +33,7 @@ public class HelperClassSubway {
     }
 
     public static void addStationsToSubwayNetwork(JSONObject jsonObject, SubwayNetwork subwayNetwork) {
+        // iterate through json to obtain all stations data, and to populate subway network with all stations.
         try {
             JSONArray stationsArrJson = jsonObject.getJSONObject("data").getJSONArray("stations");
             for (int i = 0; i < stationsArrJson.length(); i++) {
@@ -59,7 +61,7 @@ public class HelperClassSubway {
             logger.error("Error occurred in program.");
         }
     }
-
+    // iterate through json data for particular station, and extract the subwayLines data for the station.
     public static ArrayList<String> extractStationSubwayLinesData(JSONArray subwayLinesJson) {
         try {
             ArrayList<String> subwayLinesForStation = new ArrayList<String>(subwayLinesJson.length());
@@ -74,7 +76,7 @@ public class HelperClassSubway {
             return null;
         }
     }
-
+    // iterate through json data for particular station, and extract the directions data for the station.
     public static ArrayList<String> extractStationDirectionsData(JSONArray directionsJson) {
         try {
             ArrayList<String> directions = new ArrayList<String>(directionsJson.length());
@@ -90,6 +92,7 @@ public class HelperClassSubway {
         }
     }
 
+    // iterate through json data for particular station, and extract the schedule data for the station.
     public static HashMap<String, ArrayList<LocalTime>> extractStationScheduleData(JSONObject scheduleJson, ArrayList<String> directions) {
         try {
             HashMap<String, ArrayList<LocalTime>> schedule = new HashMap<String, ArrayList<LocalTime>>();

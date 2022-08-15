@@ -11,22 +11,18 @@ import java.time.*;
 
 public class SubwayNetwork {
     private static final Logger logger = LoggerFactory.getLogger(SubwaySchedule.class);
-
-    // Setting variables as private to not give access directly.
-    // Strings can be accessible throughout this class
     public String region;
     public String totalNumStations;
     public String interchangeStationsList;
     public ArrayList<String> subwayLines = new ArrayList<>(); // Create an ArrayList object
-    HashMap<String, Station> stationsList = new HashMap<String, Station>();
+    public HashMap<String, Station> stationsList = new HashMap<String, Station>();
 
 
-    // Constructor to receive first name, last name. Constructor name has to be same as class Name.
     public SubwayNetwork(String region, ArrayList<String> subwayLines){
         this.region= region;
         this.subwayLines = subwayLines;
     }
-    // add stations to the stationsList
+    // add stations to the current subway network
     public void addStation(Station station){
         try{
             this.stationsList.put(station.name, station);
@@ -35,7 +31,7 @@ public class SubwayNetwork {
             logger.error("Error occurred in program.");
         }
     }
-
+    // return a map of the station schedule based on station specified by the user.
     public HashMap<String, ArrayList<LocalTime>> getStationSchedule(String stationName){
         try{
             if (this.stationsList.containsKey(stationName)){
@@ -55,6 +51,7 @@ public class SubwayNetwork {
         }
     }
 
+    // return the next arrival time for a given station, based on direction and time reference
     public LocalTime getNextArrivalTime(String stationName, String time, String direction){
         try{
             LocalTime localTime = null;
