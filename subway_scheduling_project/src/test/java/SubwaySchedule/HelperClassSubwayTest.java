@@ -31,7 +31,6 @@ class HelperClassSubwayTest {
     void extractSubwayLines() throws IOException {
 
         ArrayList<String> subwayLines = HelperClassSubway.extractSubwayLines(jsonObject);
-        List<String> x = new ArrayList<>(Arrays.asList("xyz", "abc"));
         ArrayList<String> subwayLinesExpected =  new ArrayList<>(Arrays.asList("Line 1 Yonge-University", "Line 2 Bloor-Danforth", "Line 3 Scarborough (RT)","Line 4 Sheppard"));
         assertEquals(subwayLinesExpected, subwayLines);
     }
@@ -42,7 +41,9 @@ class HelperClassSubwayTest {
 
         String region = jsonObject.getJSONObject("data").getString("region");
 
-        ArrayList<String> subwayLines = HelperClassSubway.extractSubwayLines(jsonObject);
+        //ArrayList<String> subwayLines = HelperClassSubway.extractSubwayLines(jsonObject);
+        ArrayList<String> subwayLines = new ArrayList<>(Arrays.asList("Line 1 Yonge-University", "Line 2 Bloor-Danforth", "Line 3 Scarborough (RT)","Line 4 Sheppard"));
+
         SubwayNetwork subwayNetwork = new SubwayNetwork(region, subwayLines);
         ArrayList<String> stationsExpected =  new ArrayList<>(Arrays.asList("Osgoode", "Union", "Bloor-Yonge"));
 
@@ -87,9 +88,9 @@ class HelperClassSubwayTest {
 
         JSONObject scheduleJson = stationsArrJson.getJSONObject(0).getJSONObject("schedule");
         JSONArray directionsJson = stationsArrJson.getJSONObject(0).getJSONArray("directions");
-        ArrayList<String> directions = HelperClassSubway.extractStationDirectionsData(directionsJson);
+        //ArrayList<String> directions = new ArrayList<>(Arrays.asList("North", "South"));
         ArrayList<String> expectedStationDirections =  new ArrayList<>(Arrays.asList("North", "South"));
-        HashMap<String, ArrayList<LocalTime>> schedule = HelperClassSubway.extractStationScheduleData(scheduleJson, directions);
+        HashMap<String, ArrayList<LocalTime>> schedule = HelperClassSubway.extractStationScheduleData(scheduleJson, expectedStationDirections);
         Boolean correctScheduleDirectionsAndSize = true;
         int expectedSizeOfSchedule = 14;
 
