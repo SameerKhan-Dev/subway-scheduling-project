@@ -15,7 +15,7 @@
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
-      <module name="subway_scheduling_project" options="--add-modules java.logging" />
+      <module name="subway_scheduling_project" options="" />
     </option>
   </component>
 </project>

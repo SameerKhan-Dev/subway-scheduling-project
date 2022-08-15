@@ -17,7 +17,7 @@ public class SubwayNetwork {
     public String region;
     public String totalNumStations;
     public String interchangeStationsList;
-    public ArrayList<String> subwayLines = new ArrayList<String>(); // Create an ArrayList object
+    public ArrayList<String> subwayLines = new ArrayList<>(); // Create an ArrayList object
     HashMap<String, Station> stationsList = new HashMap<String, Station>();
 
 
