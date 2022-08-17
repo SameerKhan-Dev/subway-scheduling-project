@@ -36,7 +36,6 @@ public class Station {
             LocalTime nextArrivalTime = null;
 
             if (this.schedule.containsKey(direction)) {
-                System.out.println("Station Class: inside here 1");
                 ArrayList<LocalTime> scheduleForDirection = this.schedule.get(direction);
                 if(this.schedule.get(direction).isEmpty()){
                     System.out.println("Error: No schedule found for Station: " + this.name + " for direction: " + direction);

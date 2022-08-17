@@ -76,7 +76,7 @@ public class SubwaySchedule {
                 for (Map.Entry<String, ArrayList<LocalTime>> entry : stationSchedule.entrySet()) {
                     String key = entry.getKey();
                     ArrayList<LocalTime> value = entry.getValue();
-                    System.out.println("For station: " + requestDetails.stationRequested + " for direction " + key + "the Schedule Data is: " + value);
+                    System.out.println("For station: (" + requestDetails.stationRequested + ") for direction (" + key + ") the Schedule Data is: " + value);
                 }
             }
         } catch (Exception e){
