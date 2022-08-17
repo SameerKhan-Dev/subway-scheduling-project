@@ -6,17 +6,12 @@ import org.junit.jupiter.api.Test;
 
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import org.json.JSONObject;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.*;
-import java.util.Scanner;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class HelperClassSubwayTest {
@@ -28,7 +23,7 @@ class HelperClassSubwayTest {
     }
 
     @Test
-    void extractSubwayLines() throws IOException {
+    void extractSubwayLinesFromJsonTest() throws IOException {
 
         ArrayList<String> subwayLines = HelperClassSubway.extractSubwayLines(jsonObject);
         ArrayList<String> subwayLinesExpected =  new ArrayList<>(Arrays.asList("Line 1 Yonge-University", "Line 2 Bloor-Danforth", "Line 3 Scarborough (RT)","Line 4 Sheppard"));
@@ -36,7 +31,7 @@ class HelperClassSubwayTest {
     }
 
     @Test
-    void addStationsToSubwayNetwork() throws IOException {
+    void addStationsToSubwayNetworkTest() throws IOException {
         // read in string
 
         String region = jsonObject.getJSONObject("data").getString("region");
@@ -51,18 +46,22 @@ class HelperClassSubwayTest {
         //HashMap<String, Station> expectedStationsList =
         Boolean allKeysPresent = true;
         for (int i = 0; i < stationsExpected.size(); i++){
-
+            assertEquals(subwayNetwork.stations.containsKey(stationsExpected.get(i)), true);
+            /*
             if(subwayNetwork.stationsList.containsKey(stationsExpected.get(i)) == false){
                 allKeysPresent = false;
                 break;
             }
+             */
+
         }
-        assertEquals(allKeysPresent, true);
+        //assertEquals(allKeysPresent, true);
+
 
     }
 
     @Test
-    void extractStationSubwayLinesData() {
+    void extractStationSubwayLinesDataFromJson() {
         JSONArray subwayLinesJson = stationsArrJson.getJSONObject(0).getJSONArray("subwayLines");
 
         ArrayList<String> expectedSubwayLines =  new ArrayList<>(Arrays.asList("Line 1 Yonge-University"));
@@ -74,7 +73,7 @@ class HelperClassSubwayTest {
     }
 
     @Test
-    void extractStationDirectionsData() {
+    void extractStationDirectionsDataFromJson() {
         JSONArray directionsJson = stationsArrJson.getJSONObject(0).getJSONArray("directions");
         ArrayList<String> expectedStationDirections =  new ArrayList<>(Arrays.asList("North", "South"));
         ArrayList<String> directions = HelperClassSubway.extractStationDirectionsData(directionsJson);
@@ -84,7 +83,7 @@ class HelperClassSubwayTest {
     }
 
     @Test
-    void extractStationScheduleData() {
+    void extractStationScheduleDataFromJson() {
 
         JSONObject scheduleJson = stationsArrJson.getJSONObject(0).getJSONObject("schedule");
         JSONArray directionsJson = stationsArrJson.getJSONObject(0).getJSONArray("directions");

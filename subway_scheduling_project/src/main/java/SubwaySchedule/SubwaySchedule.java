@@ -10,14 +10,6 @@ import java.util.*;
 import java.util.Scanner;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import java.util.logging.Level;
-//import java.util.logging.Logger;
-import java.util.logging.*;
-import java.util.logging.ConsoleHandler;
-import java.util.logging.FileHandler;
-import java.util.logging.Handler;
-import java.util.logging.Level;
-//import java.util.logging.Logger;
 
 public class SubwaySchedule {
     private static final Logger logger = LoggerFactory.getLogger(SubwaySchedule.class);
@@ -37,9 +29,11 @@ public class SubwaySchedule {
             // populate subway network
             HelperClassSubway.addStationsToSubwayNetwork(jsonObject, subwayNetwork);
 
-            // Iniitate Command-line request details questionaire to ask user what information they are
-            // looking for such as schedule or next arrival time, and for what station etc.
+            /* Iniitate Command-line request details questionnaire to ask user what information they are
+             looking for such as schedule or next arrival time, and for what station etc.
+            */
             RequestDetails requestDetails = new RequestDetails();
+
             requestDetails.getInputForRequestDetails();
 
             if (requestDetails.informationRequested.equals("schedule")){
@@ -82,7 +76,7 @@ public class SubwaySchedule {
                 for (Map.Entry<String, ArrayList<LocalTime>> entry : stationSchedule.entrySet()) {
                     String key = entry.getKey();
                     ArrayList<LocalTime> value = entry.getValue();
-                    System.out.println("For station: " + key + " for direction " + key + "the Schedule Data is: " + value);
+                    System.out.println("For station: " + requestDetails.stationRequested + " for direction " + key + "the Schedule Data is: " + value);
                 }
             }
         } catch (Exception e){
@@ -100,7 +94,6 @@ public class SubwaySchedule {
             } else {
                 System.out.println("Invalid Input provided.");
             }
-            //throw new Exception("Exception message");
         } catch (Exception e){
             logger.debug("Exception occurred inside getNextArrivalTime method: " + e);
             logger.error("Error occurred in program.");

@@ -3,10 +3,10 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.time.LocalTime; // import the LocalTime class
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.HashMap;
+
 // this class is used as a helper class to help extract json data from file, format it and populate SubwayNetwork object/
 public class HelperClassSubway {
     private HelperClassSubway() {
@@ -31,7 +31,7 @@ public class HelperClassSubway {
             return null;
         }
     }
-
+    // helper method to add stations to SubwayNetwork object
     public static void addStationsToSubwayNetwork(JSONObject jsonObject, SubwayNetwork subwayNetwork) {
         // iterate through json to obtain all stations data, and to populate subway network with all stations.
         try {
@@ -76,6 +76,7 @@ public class HelperClassSubway {
             return null;
         }
     }
+
     // iterate through json data for particular station, and extract the directions data for the station.
     public static ArrayList<String> extractStationDirectionsData(JSONArray directionsJson) {
         try {
@@ -92,7 +93,9 @@ public class HelperClassSubway {
         }
     }
 
-    // iterate through json data for particular station, and extract the schedule data for the station.
+    /*
+    *  iterate through json data for particular station, and extract the schedule data for the station.
+    */
     public static HashMap<String, ArrayList<LocalTime>> extractStationScheduleData(JSONObject scheduleJson, ArrayList<String> directions) {
         try {
             HashMap<String, ArrayList<LocalTime>> schedule = new HashMap<String, ArrayList<LocalTime>>();
@@ -100,7 +103,6 @@ public class HelperClassSubway {
             for (int k = 0; k < directions.size(); k++) {
                 ArrayList<LocalTime> scheduleForDirection = new ArrayList<LocalTime>();
                 String currentDirection = directions.get(k);
-                //System.out.println("currentDirection is: for Station: " + name + " : " + currentDirection);
                 schedule.put(currentDirection, scheduleForDirection);
 
                 JSONArray scheduleForDirectionJson = scheduleJson.getJSONArray(currentDirection);

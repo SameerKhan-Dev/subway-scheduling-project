@@ -1,21 +1,17 @@
 package SubwaySchedule;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.lang.reflect.Array;
 import java.time.temporal.ChronoUnit;
 import java.util.HashMap;
-import java.util.ArrayList; // import the ArrayList class
-import java.time.LocalTime; // import the LocalTime class
-import java.time.*;
+import java.util.ArrayList;
+import java.time.LocalTime;
+
 
 public class SubwayNetwork {
     private static final Logger logger = LoggerFactory.getLogger(SubwaySchedule.class);
     public String region;
-    public String totalNumStations;
-    public String interchangeStationsList;
-    public ArrayList<String> subwayLines = new ArrayList<>(); // Create an ArrayList object
-    public HashMap<String, Station> stationsList = new HashMap<String, Station>();
+    public ArrayList<String> subwayLines = new ArrayList<String>(); // Create an ArrayList object
+    public HashMap<String, Station> stations = new HashMap<String, Station>();
 
 
     public SubwayNetwork(String region, ArrayList<String> subwayLines){
@@ -25,7 +21,7 @@ public class SubwayNetwork {
     // add stations to the current subway network
     public void addStation(Station station){
         try{
-            this.stationsList.put(station.name, station);
+            this.stations.put(station.name, station);
         }catch(Exception e){
             logger.debug("Exception occurred inside addStation method: " + e);
             logger.error("Error occurred in program.");
@@ -34,13 +30,10 @@ public class SubwayNetwork {
     // return a map of the station schedule based on station specified by the user.
     public HashMap<String, ArrayList<LocalTime>> getStationSchedule(String stationName){
         try{
-            if (this.stationsList.containsKey(stationName)){
-                Station station = this.stationsList.get(stationName);
+            if (this.stations.containsKey(stationName)){
+                Station station = this.stations.get(stationName);
                 return station.getSchedule();
             } else {
-                // return an error message
-                //String errorMessage = "Error: Station does not exist";
-                //return errorMessage;
                 System.out.println("Error invalid Station does not exist");
             }
             return null;
@@ -69,8 +62,8 @@ public class SubwayNetwork {
                 }
             }
 
-            if (this.stationsList.containsKey(stationName)){
-                Station station = this.stationsList.get(stationName);
+            if (this.stations.containsKey(stationName)){
+                Station station = this.stations.get(stationName);
                 return station.getNextArrivalTime(localTime, direction);
             } else {
                 System.out.println("Error invalid Station inputted, does not exist");

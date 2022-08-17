@@ -1,26 +1,13 @@
 package SubwaySchedule;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import java.lang.reflect.Array;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import org.json.JSONObject;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
+
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.*;
-import java.util.Scanner;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import static org.junit.jupiter.api.Assertions.*;
-
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -47,8 +34,8 @@ class SubwayNetworkTest {
 
         subwayNetwork.addStation(station);
 
-        Boolean stationAdded = subwayNetwork.stationsList.containsKey("Osgoode");
-        Boolean stationMappedCorrectly = subwayNetwork.stationsList.get("Osgoode") instanceof Station;
+        Boolean stationAdded = subwayNetwork.stations.containsKey("Osgoode");
+        Boolean stationMappedCorrectly = subwayNetwork.stations.get("Osgoode") instanceof Station;
 
         assertEquals(true, stationAdded && stationMappedCorrectly);
     }
@@ -60,11 +47,10 @@ class SubwayNetworkTest {
 
         String stationName = "Osgoode";
         HashMap<String, ArrayList<LocalTime>> stationSchedule = subwayNetwork.getStationSchedule(stationName);
-        Boolean correctScheduleDirectionsAndSize = true;
         ArrayList<String> expectedDirections = new ArrayList<>(Arrays.asList("North", "South"));
 
         int expectedSizeOfSchedule = 2;
-        // ask do i need to do a loop here or can i just have separate assertEquals
+
         assertEquals(true, stationSchedule.containsKey("North"));
         assertEquals(true, stationSchedule.containsKey("South"));
         assertEquals(expectedSizeOfSchedule, stationSchedule.get(expectedDirections.get(0)).size());

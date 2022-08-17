@@ -12,6 +12,7 @@ public class RequestDetails {
     public String stationRequested;
     public String timeProvided;
     public String direction;
+
     public RequestDetails(){
     }
     // get user's command line input to build the request details (i.e. schedule or next arrival time?, station? time? direction?)
@@ -22,14 +23,14 @@ public class RequestDetails {
             System.out.println("Please enter (S) for getting Schedule, enter (A) for Next arrival Time, or enter (E) to exit the program.");
             Boolean validInformationRequested = false;
 
-            while (validInformationRequested == false){
+            while (validInformationRequested == false) {
                 String informationRequested = in.nextLine();
                 if (informationRequested.equals("S")){
                     this.informationRequested = "schedule";
-                    System.out.println("InformationRequested is: schedule ");
+                    System.out.println("Option selected is: schedule ");
                     validInformationRequested = true;
                 } else if (informationRequested.equals("A")) {
-                    System.out.println("InformationRequested is: Next Arrival Time");
+                    System.out.println("Option selected is: Next Arrival Time");
                     this.informationRequested = "nextArrival";
                     validInformationRequested = true;
                 } else if (informationRequested.equals("E")){
@@ -41,11 +42,14 @@ public class RequestDetails {
                     System.out.println("Please enter (S) for getting Schedule, enter (A) for Next arrival Time, or enter (E) to exit the program.");
                 }
             }
+
             System.out.println("Please enter station name:");
             this.stationRequested = in.nextLine();
-            if(this.informationRequested.equals("nextArrival")){
+
+            if (this.informationRequested.equals("nextArrival")){
                 System.out.println("Please enter reference time (to check next Arrival time) in format HH:MM (e.g 12:45) Or enter Default to use current time");
                 String timeInputted = in.nextLine();
+
                 // validate that time matches required format
                 Boolean timeInputFormatCorrect = timeInputted.matches("^\\d\\d:\\d\\d$") || timeInputted.matches("^\\d\\d:\\d\\d:\\d\\d$");
 
@@ -67,7 +71,7 @@ public class RequestDetails {
                 System.out.println("Please enter direction. E.g North, South, East, or West");
                 this.direction = in.nextLine();
             }
-        } catch(Exception e){
+        } catch (Exception e){
             logger.debug("Exception occurred inside getInputForRequestDetails method: " + e);
             logger.error("Error occurred in program.");
         }

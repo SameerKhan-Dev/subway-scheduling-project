@@ -1,13 +1,9 @@
 package SubwaySchedule;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.lang.reflect.Array;
 import java.util.HashMap;
-import java.util.ArrayList; // import the ArrayList class
-import java.time.*;
-import java.time.LocalTime; // import the LocalTime class
+import java.util.ArrayList;
+import java.time.LocalTime;
 
 
 public class Station {
@@ -39,27 +35,25 @@ public class Station {
             Boolean validDirection = false;
             LocalTime nextArrivalTime = null;
 
-            for (int i = 0; i < this.directions.size(); i++){
-                if (this.directions.get(i).equals(direction)){
-                    validDirection = true;
-                    break;
-                }
-            }
-            if (validDirection) {
+            if (this.schedule.containsKey(direction)) {
                 System.out.println("Station Class: inside here 1");
-                //int minutes = Integer.parseInt(time.substring(0, 2)) * 60 + Integer.parseInt(time.substring(3));
                 ArrayList<LocalTime> scheduleForDirection = this.schedule.get(direction);
+                if(this.schedule.get(direction).isEmpty()){
+                    System.out.println("Error: No schedule found for Station: " + this.name + " for direction: " + direction);
+                } else {
+                    nextArrivalTime = scheduleForDirection.get(0);
 
-                nextArrivalTime = scheduleForDirection.get(0);
-
-                for (int i = 0; i < scheduleForDirection.size() ; i++){
-                    LocalTime currentArrivalTime = scheduleForDirection.get(i);
-                    int value = currentArrivalTime.compareTo(time);
-                    if (value >= 0){
-                        nextArrivalTime = currentArrivalTime;
-                        break;
+                    // determine next arrival time (assumes schedule will be in sorted order.
+                    for (int i = 0; i < scheduleForDirection.size() ; i++){
+                        LocalTime currentArrivalTime = scheduleForDirection.get(i);
+                        int value = currentArrivalTime.compareTo(time);
+                        if (value >= 0){
+                            nextArrivalTime = currentArrivalTime;
+                            break;
+                        }
                     }
                 }
+
             } else {
                 System.out.println("Error: Invalid direction inputted for this Station. Valid directions for station: " + this.name + " are: " + this.directions);
             }
